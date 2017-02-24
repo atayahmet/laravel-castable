@@ -1,0 +1,33 @@
+{
+    "name": "atayahmet/laravel-castable",
+    "type": "library",
+    "description": "Clarify types of all inputs",
+    "homepage": "https://github.com/atayahmet/laravel-castable",
+    "keywords": ["cast","input","request","clarify","laravel"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ahmet ATAY",
+            "email": "ahmet.atay@hotmail.com",
+            "homepage": "http://www.atayahmet.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.5",
+        "illuminate/support": "5.2.*|5.3.*|5.4.*",
+        "illuminate/database": "5.2.*|5.3.*|5.4.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.0|^5.0",
+        "orchestra/testbench": "~3.0",
+        "orchestra/database": "~3.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Castable\\": "src/",
+            "Castable\\Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "dev"
+}
