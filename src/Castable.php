@@ -1,9 +1,13 @@
-<?php namespace Castable;
+<?php
+
+namespace Castable;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
 class Castable extends FormRequest {
+
+    protected $originalRequest = false;
 
     /**
      * Get the input source for the request.
@@ -30,6 +34,8 @@ class Castable extends FormRequest {
     {
         $input = $this->getInputSource()->all() + $this->requestCast($this->query, 'query')->all();
 
+        $this->resetOriginal();
+
         return data_get($input, $key, $default);
     }
 
@@ -47,10 +53,16 @@ class Castable extends FormRequest {
         }
 
         if (is_null($key)) {
-            return $this->requestCast($this->json, 'json');
+            $jsonData = $this->requestCast($this->json, 'json');
+
+            $this->resetOriginal();
+
+            return $jsonData;
         }
 
         $jsonData = $this->requestCast(new ParameterBag($this->json->all()), 'json')->all();
+
+        $this->resetOriginal();
 
         return data_get($jsonData, $key, $default);
     }
@@ -62,7 +74,7 @@ class Castable extends FormRequest {
      * @param  array        $casts
      * @return object ParameterBag
      */
-    protected function cast(ParameterBag $parameters, array $casts)
+    protected function cast(ParameterBag $parameters, array $casts, $type)
     {
         // Cloning the ParameterBag  class to prevent any change
         // Converts parameters everytime
@@ -72,10 +84,10 @@ class Castable extends FormRequest {
         foreach($parameters as $key => &$value) {
 
             if(array_has($casts, $key)) {
-
+                $prefix = ucfirst($type);
                 $method = $casts[$key].'Type';
                 $value  = $this->{$method}($value);
-                $setter = 'Query'.ucfirst($key).'Attribute';
+                $setter = $prefix.ucfirst(camel_case($key)).'Attribute';
 
                 if(method_exists($this, $setter)) {
                     $value  = $this->{$setter}($value);
@@ -88,6 +100,13 @@ class Castable extends FormRequest {
         return $data;
     }
 
+    public function original()
+    {
+        $this->originalRequest = true;
+
+        return $this;
+    }
+
     /**
      * Convert type adapter
      *
@@ -97,11 +116,16 @@ class Castable extends FormRequest {
      */
     protected function requestCast($request, $type)
     {
-        if(array_has($this->casts, $type)) {
-            $request = $this->cast($request, $this->casts[$type]);
+        if(array_has($this->casts, $type)) {,
+            $request = $this->originalRequest ? $request : $this->cast($request, $this->casts[$type], $type);
         }
 
         return $request;
+    }
+
+    protected function resetOriginal()
+    {
+        $this->originalRequest = false;
     }
 
     /**
