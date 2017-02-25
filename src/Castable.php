@@ -20,6 +20,20 @@ class Castable extends FormRequest {
     }
 
     /**
+     * Retrieve an input item from the request.
+     *
+     * @param  string  $key
+     * @param  string|array|null  $default
+     * @return string|array
+     */
+    public function input($key = null, $default = null)
+    {
+        $input = $this->getInputSource()->all() + $this->requestCast($this->query, 'query')->all();
+
+        return data_get($input, $key, $default);
+    }
+
+    /**
      * Get the JSON payload for the request.
      *
      * @param  string  $key
