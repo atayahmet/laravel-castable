@@ -6,6 +6,18 @@ use Castable\Castable;
 
 class DummyClass extends Castable
 {
+    protected $casts = [
+        'json' => [
+            //
+        ],
+        'post'  => [
+            //
+        ],
+        'query' => [
+            //
+        ]
+    ];
+
     /**
      * Determine if the user is authorized to make this request.
      *

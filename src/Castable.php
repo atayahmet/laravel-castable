@@ -61,7 +61,6 @@ class Castable extends FormRequest {
         }
 
         $jsonData = $this->requestCast(new ParameterBag($this->json->all()), 'json')->all();
-
         $this->resetOriginal();
 
         return data_get($jsonData, $key, $default);
@@ -116,7 +115,7 @@ class Castable extends FormRequest {
      */
     protected function requestCast($request, $type)
     {
-        if(array_has($this->casts, $type)) {,
+        if(array_has($this->casts, $type)) {
             $request = $this->originalRequest ? $request : $this->cast($request, $this->casts[$type], $type);
         }
 
@@ -137,7 +136,7 @@ class Castable extends FormRequest {
     protected function booleanType($value)
     {
         if(in_array($value, ["true", "false", "1", "0", 1, 0])) {
-            return (bool)$value;
+            return (bool) $value;
         }
 
         return $value;
@@ -151,7 +150,7 @@ class Castable extends FormRequest {
      */
     protected function floatType($value)
     {
-        if(is_numeric($value)) return (float)$value;
+        if(is_numeric($value)) return (float) $value;
 
         return $value;
     }
@@ -164,7 +163,7 @@ class Castable extends FormRequest {
      */
     protected function integerType($value)
     {
-        if(is_numeric($value)) return (int)$value;
+        if(is_numeric($value)) return (int) $value;
 
         return $value;
     }
@@ -177,7 +176,7 @@ class Castable extends FormRequest {
      */
     protected function stringType($value)
     {
-        return (string)$value;
+        return (string) $value;
     }
 
     /**
@@ -188,7 +187,7 @@ class Castable extends FormRequest {
      */
     protected function arrayType($value)
     {
-        return (array)$value;
+        return (array) $value;
     }
 
     /**
@@ -199,7 +198,7 @@ class Castable extends FormRequest {
      */
     protected function objectType($value)
     {
-        return (object)$value;
+        return (object) $value;
     }
 
     /**

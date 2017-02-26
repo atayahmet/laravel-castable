@@ -3,6 +3,8 @@
 namespace Castable\Tests;
 
 use Castable\Tests\TestCase;
+use Illuminate\Support\Collection;
+use stdClass;
 
 class CastableTest extends TestCase
 {
@@ -13,10 +15,165 @@ class CastableTest extends TestCase
         parent::setUp();
     }
 
-    public function testMake()
+    public function testAll()
     {
-        // $nestable = new \Nestable\Services\NestableService();
-        // $nested = $nestable->make($this->categories);
-        // $this->assertContainsOnlyInstancesOf(\Nestable\Services\NestableService::class, array($nested));
+        $all = $this->castRequest->all();
+
+        $this->assertCount(8, $all);
+        $this->assertInternalType('integer', $all['age']);
+        $this->assertInternalType('integer', $all['birthYear']);
+        $this->assertInternalType('float', $all['total_money']);
+        $this->assertInternalType('boolean', $all['student']);
+        $this->assertInternalType('string', $all['name']);
+        $this->assertInternalType('array', $all['hobbies']);
+        $this->assertInternalType('object', $all['books']);
+        $this->assertTrue($all['books'] instanceof stdClass);
+        $this->assertInternalType('object', $all['interests']);
+        $this->assertTrue($all['interests'] instanceof Collection);
+
+        $all = $this->castRequest->original()->all();
+
+        $this->assertCount(8, $all);
+        $this->assertInternalType('string', $all['age']);
+        $this->assertInternalType('string', $all['birthYear']);
+        $this->assertInternalType('string', $all['total_money']);
+        $this->assertInternalType('string', $all['student']);
+        $this->assertInternalType('string', $all['name']);
+        $this->assertInternalType('array', $all['hobbies']);
+        $this->assertInternalType('array', $all['books']);
+        $this->assertFalse($all['books'] instanceof stdClass);
+        $this->assertInternalType('array', $all['interests']);
+        $this->assertFalse($all['interests'] instanceof Collection);
+    }
+
+    public function testInput()
+    {
+        // change method as GET
+        $this->castRequest->setMethod('GET');
+
+        $this->assertEquals('GET', $this->castRequest->getRealMethod());
+
+        $input = $this->castRequest->input();
+
+        $this->assertCount(8, $input);
+        $this->assertInternalType('integer', $input['age']);
+        $this->assertInternalType('integer', $input['birthYear']);
+        $this->assertInternalType('float', $input['total_money']);
+        $this->assertInternalType('boolean', $input['student']);
+        $this->assertInternalType('string', $input['name']);
+        $this->assertInternalType('array', $input['hobbies']);
+        $this->assertInternalType('object', $input['books']);
+        $this->assertTrue($input['books'] instanceof stdClass);
+        $this->assertInternalType('object', $input['interests']);
+        $this->assertTrue($input['interests'] instanceof Collection);
+
+        $input = $this->castRequest->original()->input();
+
+        $this->assertCount(8, $input);
+        $this->assertInternalType('string', $input['age']);
+        $this->assertInternalType('string', $input['birthYear']);
+        $this->assertInternalType('string', $input['total_money']);
+        $this->assertInternalType('string', $input['student']);
+        $this->assertInternalType('string', $input['name']);
+        $this->assertInternalType('array', $input['hobbies']);
+        $this->assertInternalType('array', $input['books']);
+        $this->assertFalse($input['books'] instanceof stdClass);
+        $this->assertInternalType('array', $input['interests']);
+        $this->assertFalse($input['interests'] instanceof Collection);
+
+        // change method as POST
+        $this->castRequest->setMethod('POST');
+
+        $this->assertEquals('POST', $this->castRequest->getRealMethod());
+
+        $input = $this->castRequest->input();
+
+        $this->assertCount(8, $input);
+        $this->assertInternalType('integer', $input['age']);
+        $this->assertInternalType('integer', $input['birthYear']);
+        $this->assertInternalType('float', $input['total_money']);
+        $this->assertInternalType('boolean', $input['student']);
+        $this->assertInternalType('string', $input['name']);
+        $this->assertInternalType('array', $input['hobbies']);
+        $this->assertInternalType('object', $input['books']);
+        $this->assertTrue($input['books'] instanceof stdClass);
+        $this->assertInternalType('object', $input['interests']);
+        $this->assertTrue($input['interests'] instanceof Collection);
+
+        $input = $this->castRequest->original()->input();
+
+        $this->assertCount(8, $input);
+        $this->assertInternalType('string', $input['age']);
+        $this->assertInternalType('string', $input['birthYear']);
+        $this->assertInternalType('string', $input['total_money']);
+        $this->assertInternalType('string', $input['student']);
+        $this->assertInternalType('string', $input['name']);
+        $this->assertInternalType('array', $input['hobbies']);
+        $this->assertInternalType('array', $input['books']);
+        $this->assertFalse($input['books'] instanceof stdClass);
+        $this->assertInternalType('array', $input['interests']);
+        $this->assertFalse($input['interests'] instanceof Collection);
+    }
+
+    public function testJson()
+    {
+        $json = $this->castRequest->json()->all();
+
+        $this->assertCount(9, $json);
+        $this->assertInternalType('integer', $json['age']);
+        $this->assertInternalType('integer', $json['birthYear']);
+        $this->assertInternalType('float', $json['total_money']);
+        $this->assertInternalType('boolean', $json['student']);
+        $this->assertInternalType('string', $json['name']);
+        $this->assertInternalType('array', $json['hobbies']);
+        $this->assertInternalType('object', $json['books']);
+        $this->assertTrue($json['books'] instanceof stdClass);
+        $this->assertInternalType('object', $json['interests']);
+        $this->assertTrue($json['interests'] instanceof Collection);
+
+        $json = $this->castRequest->original()->json()->all();
+
+        $this->assertCount(9, $json);
+        $this->assertInternalType('string', $json['age']);
+        $this->assertInternalType('string', $json['birthYear']);
+        $this->assertInternalType('string', $json['total_money']);
+        $this->assertInternalType('string', $json['student']);
+        $this->assertInternalType('string', $json['name']);
+        $this->assertInternalType('array', $json['hobbies']);
+        $this->assertInternalType('array', $json['books']);
+        $this->assertFalse($json['books'] instanceof stdClass);
+        $this->assertInternalType('array', $json['interests']);
+        $this->assertFalse($json['interests'] instanceof Collection);
+    }
+
+    public function testQueryAgeAttribute()
+    {
+        $this->castRequest->setMethod('GET');
+
+        // QueryAgeAttribute is in TestCaseRequest
+        // Default value: 11
+        // Method: GET
+        $this->assertEquals(12, $this->castRequest->input('age'));
+    }
+
+    public function testPostAgeAttribute()
+    {
+        $this->castRequest->setMethod('POST');
+
+        // QueryAgeAttribute is in TestCaseRequest
+        // Default value: 11
+        // Method: POST
+        $this->assertEquals(12, $this->castRequest->input('age'));
+    }
+
+    public function testJsonExperienceAttribute()
+    {
+        $this->castRequest->setMethod('POST');
+
+        // QueryAgeAttribute is in TestCaseRequest
+        // Default value: 4
+        // Data: Raw data
+        // Method: POST
+        $this->assertEquals(5, $this->castRequest->json('experience'));
     }
 }
