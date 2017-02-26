@@ -61,6 +61,7 @@ class Castable extends FormRequest {
         }
 
         $jsonData = $this->requestCast(new ParameterBag($this->json->all()), 'json')->all();
+
         $this->resetOriginal();
 
         return data_get($jsonData, $key, $default);
