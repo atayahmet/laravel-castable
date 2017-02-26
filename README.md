@@ -15,7 +15,7 @@ $ composer require atayahmet/laravel-castable
 and then we need add the service provider to the app.php
 
 ```php
-Nestable\NestableServiceProvider::class
+Castable\CastableServiceProvider::class
 ```
 
 OK, we done.
@@ -47,10 +47,12 @@ class ContactFormRequest extends Castable
             //
         ],
         'post'  => [
-            //
+            'age' => 'integer',
+            'student' => 'boolean',
+            'interests' => 'collection'
         ],
         'query' => [
-            //
+            'save' => 'boolean'
         ]
     ];
 
@@ -77,3 +79,7 @@ class ContactFormRequest extends Castable
     }
 }
 ```
+
+We added four inputs to casts property, status attibute added to query string parameters and age, student and interests attributes added to post parameters.
+
+Raw type of the attributes:
