@@ -4,7 +4,11 @@
 
 **Laravel Castable** package is a type converter, input filter or sanitizer. It is possible to do all of these operations. Supported `POST`, `RAW DATA`, `GET` requests methods. We started by inspiring the Laravel Eloquent data cast.
 
-Supported Laravel versions: **5.3** and **5.4**
+## Requirements
+
+PHP 5.6, 7.0+
+Laravel 5.3 (LTS) or Laravel 5.4 (Current)
+
 
 ## Get Started
 
@@ -201,3 +205,7 @@ public function JsonSaveAttribute($value, $original)
     return ucfirst($name);
 }
 ````
+
+## License
+
+This package is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
