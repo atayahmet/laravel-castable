@@ -19,10 +19,13 @@ class CastableTest extends TestCase
     {
         $all = $this->castRequest->all();
 
-        $this->assertCount(8, $all);
+        $this->assertCount(11, $all);
         $this->assertInternalType('integer', $all['age']);
         $this->assertInternalType('integer', $all['birthYear']);
         $this->assertInternalType('float', $all['total_money']);
+        $this->assertInternalType('double', $all['total']);
+        $this->assertInternalType('real', $all['total2']);
+        $this->assertInternalType('null', $all['phone']);
         $this->assertInternalType('boolean', $all['student']);
         $this->assertInternalType('string', $all['name']);
         $this->assertInternalType('array', $all['hobbies']);
@@ -33,10 +36,13 @@ class CastableTest extends TestCase
 
         $all = $this->castRequest->original()->all();
 
-        $this->assertCount(8, $all);
+        $this->assertCount(11, $all);
         $this->assertInternalType('string', $all['age']);
         $this->assertInternalType('string', $all['birthYear']);
         $this->assertInternalType('string', $all['total_money']);
+        $this->assertInternalType('string', $all['total']);
+        $this->assertInternalType('string', $all['total2']);
+        $this->assertInternalType('string', $all['phone']);
         $this->assertInternalType('string', $all['student']);
         $this->assertInternalType('string', $all['name']);
         $this->assertInternalType('array', $all['hobbies']);
@@ -55,10 +61,13 @@ class CastableTest extends TestCase
 
         $input = $this->castRequest->input();
 
-        $this->assertCount(8, $input);
+        $this->assertCount(11, $input);
         $this->assertInternalType('integer', $input['age']);
         $this->assertInternalType('integer', $input['birthYear']);
         $this->assertInternalType('float', $input['total_money']);
+        $this->assertInternalType('double', $input['total']);
+        $this->assertInternalType('real', $input['total2']);
+        $this->assertInternalType('null', $input['phone']);
         $this->assertInternalType('boolean', $input['student']);
         $this->assertInternalType('string', $input['name']);
         $this->assertInternalType('array', $input['hobbies']);
@@ -69,10 +78,13 @@ class CastableTest extends TestCase
 
         $input = $this->castRequest->original()->input();
 
-        $this->assertCount(8, $input);
+        $this->assertCount(11, $input);
         $this->assertInternalType('string', $input['age']);
         $this->assertInternalType('string', $input['birthYear']);
         $this->assertInternalType('string', $input['total_money']);
+        $this->assertInternalType('string', $input['total']);
+        $this->assertInternalType('string', $input['total2']);
+        $this->assertInternalType('string', $input['phone']);
         $this->assertInternalType('string', $input['student']);
         $this->assertInternalType('string', $input['name']);
         $this->assertInternalType('array', $input['hobbies']);
@@ -88,10 +100,13 @@ class CastableTest extends TestCase
 
         $input = $this->castRequest->input();
 
-        $this->assertCount(8, $input);
+        $this->assertCount(11, $input);
         $this->assertInternalType('integer', $input['age']);
         $this->assertInternalType('integer', $input['birthYear']);
         $this->assertInternalType('float', $input['total_money']);
+        $this->assertInternalType('double', $input['total']);
+        $this->assertInternalType('real', $input['total2']);
+        $this->assertInternalType('null', $input['phone']);
         $this->assertInternalType('boolean', $input['student']);
         $this->assertInternalType('string', $input['name']);
         $this->assertInternalType('array', $input['hobbies']);
@@ -102,10 +117,13 @@ class CastableTest extends TestCase
 
         $input = $this->castRequest->original()->input();
 
-        $this->assertCount(8, $input);
+        $this->assertCount(11, $input);
         $this->assertInternalType('string', $input['age']);
         $this->assertInternalType('string', $input['birthYear']);
         $this->assertInternalType('string', $input['total_money']);
+        $this->assertInternalType('string', $input['total']);
+        $this->assertInternalType('string', $input['total2']);
+        $this->assertInternalType('string', $input['phone']);
         $this->assertInternalType('string', $input['student']);
         $this->assertInternalType('string', $input['name']);
         $this->assertInternalType('array', $input['hobbies']);
@@ -119,10 +137,13 @@ class CastableTest extends TestCase
     {
         $json = $this->castRequest->json()->all();
 
-        $this->assertCount(9, $json);
+        $this->assertCount(12, $json);
         $this->assertInternalType('integer', $json['age']);
         $this->assertInternalType('integer', $json['birthYear']);
         $this->assertInternalType('float', $json['total_money']);
+        $this->assertInternalType('double', $json['total']);
+        $this->assertInternalType('real', $json['total2']);
+        $this->assertInternalType('null', $json['phone']);
         $this->assertInternalType('boolean', $json['student']);
         $this->assertInternalType('string', $json['name']);
         $this->assertInternalType('array', $json['hobbies']);
@@ -133,10 +154,13 @@ class CastableTest extends TestCase
 
         $json = $this->castRequest->original()->json()->all();
 
-        $this->assertCount(9, $json);
+        $this->assertCount(12, $json);
         $this->assertInternalType('string', $json['age']);
         $this->assertInternalType('string', $json['birthYear']);
         $this->assertInternalType('string', $json['total_money']);
+        $this->assertInternalType('string', $json['total']);
+        $this->assertInternalType('string', $json['total2']);
+        $this->assertInternalType('string', $json['phone']);
         $this->assertInternalType('string', $json['student']);
         $this->assertInternalType('string', $json['name']);
         $this->assertInternalType('array', $json['hobbies']);

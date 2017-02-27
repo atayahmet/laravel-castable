@@ -11,6 +11,9 @@ class TestCastRequest extends Castable {
             'age'  => 'integer',
             'birthYear' => 'integer',
             'total_money' => 'float',
+            'total' => 'double',
+            'total2' => 'real',
+            'phone' => 'unset',
             'student' => 'boolean',
             'name'  => 'string',
             'hobbies' => 'array',
@@ -22,6 +25,9 @@ class TestCastRequest extends Castable {
             'age'  => 'integer',
             'birthYear' => 'integer',
             'total_money' => 'float',
+            'total' => 'double',
+            'total2' => 'real',
+            'phone' => 'unset',
             'student' => 'boolean',
             'name'  => 'string',
             'hobbies' => 'array',
@@ -32,6 +38,9 @@ class TestCastRequest extends Castable {
             'age'  => 'integer',
             'birthYear' => 'integer',
             'total_money' => 'float',
+            'total' => 'double',
+            'total2' => 'real',
+            'phone' => 'unset',
             'student' => 'boolean',
             'name'  => 'string',
             'hobbies' => 'array',
@@ -62,17 +71,17 @@ class TestCastRequest extends Castable {
         ];
     }
 
-    public function QueryAgeAttribute($value)
+    public function QueryAgeAttribute($value, $original)
     {
         return $value + 1;
     }
 
-    public function PostAgeAttribute($value)
+    public function PostAgeAttribute($value, $original)
     {
         return $value + 1;
     }
 
-    public function JsonExperienceAttribute($value)
+    public function JsonExperienceAttribute($value, $original)
     {
         return $value + 1;
     }

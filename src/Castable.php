@@ -81,16 +81,16 @@ class Castable extends FormRequest {
         $data = clone $parameters;
 
         // Iterates original parameter class
-        foreach($parameters as $key => &$value) {
+        foreach($parameters as $key => &$originalValue) {
 
             if(array_has($casts, $key)) {
                 $prefix = ucfirst($type);
                 $method = $casts[$key].'Type';
-                $value  = $this->{$method}($value);
+                $value  = $this->{$method}($originalValue);
                 $setter = $prefix.ucfirst(camel_case($key)).'Attribute';
 
                 if(method_exists($this, $setter)) {
-                    $value  = $this->{$setter}($value);
+                    $value = $this->{$setter}($value, $originalValue);
                 }
 
                 $data->set($key, $value);
@@ -154,6 +154,54 @@ class Castable extends FormRequest {
         if(is_numeric($value)) return (float) $value;
 
         return $value;
+    }
+
+    /**
+     * Convert to double type
+     *
+     * @param  numeric $value
+     * @return int|mixed
+     */
+    protected function doubleType($value)
+    {
+        if(is_numeric($value)) return (double) $value;
+
+        return $value;
+    }
+
+    /**
+     * Convert to real type
+     *
+     * @param  numeric $value
+     * @return int|mixed
+     */
+    protected function realType($value)
+    {
+        if(is_numeric($value)) return (real) $value;
+
+        return $value;
+    }
+
+    /**
+     * Convert to unset type
+     *
+     * @param  mixed $value
+     * @return null
+     */
+    protected function unsetType($value = '')
+    {
+        return (unset) $value;
+    }
+
+    /**
+     * Convert to binary type
+     *
+     * @param  mixed $value
+     * @return binary
+     */
+    protected function binaryType($value = '')
+    {
+        return (binary) $value;
     }
 
     /**
