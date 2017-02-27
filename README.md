@@ -22,6 +22,19 @@ OK, we done.
 
 Let's see how to use the laravel-castable.
 
+### Castable types
+
+| Types  |
+|-------|
+| string |
+| integer |
+| boolean |
+| float |
+| array |
+| object (stdClass) |
+| collection |
+
+
 ## Create Castable Form Request class
 
 We created new artisan command that inspired `make:request` from laravel built in command.
@@ -47,6 +60,7 @@ class ContactFormRequest extends Castable
             //
         ],
         'post'  => [
+            'name' => 'string',
             'age' => 'integer',
             'student' => 'boolean',
             'interests' => 'collection'
@@ -82,4 +96,69 @@ class ContactFormRequest extends Castable
 
 We added four inputs to casts property, status attibute added to query string parameters and age, student and interests attributes added to post parameters.
 
-Raw type of the attributes:
+### Raw and converted type of the attributes
+
+**Post:**
+
+| Name  | Value | Type | Cast Type |
+|-------|-------|------| -----------|
+| name  | Ali | string  | string |
+| age   | 19  | string  | integer |
+| student | true   | string  | boolean |
+| interests | books, computers   | array  | collection |
+
+**Query String:**
+
+| Name  | Value | Type | Cast Type |
+|-------|-------|------| ----------|
+| save  | true  | string| boolean |
+
+To get the above result for:
+
+```php
+<?php
+
+ContactController extends Controller {
+
+  public index(ContactFormRequest $contactFormRequest)
+  {
+      $contactFormRequest->input();
+  }
+}
+```
+
+**Get a input:**
+
+```php
+$contactFormRequest->input('interests'); // collection
+
+$contactFormRequest->input('student') // boolean (true)
+
+$contactFormRequest->input('save') // boolean (true)
+````
+
+if request is post raw data:
+
+```php
+$contactFormRequest->json();
+
+$contactFormRequest->json('age');
+````
+
+**Get original inputs:**
+
+```php
+$contactFormRequest->original()->input();
+```
+
+**Get original an input:**
+
+```php
+$contactFormRequest->original()->input('student'); // string (true)
+```
+
+**Original raw data:**
+
+```php
+$contactFormRequest->original()->json();
+```
