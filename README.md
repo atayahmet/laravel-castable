@@ -1,10 +1,4 @@
-[![Build Status](https://travis-ci.org/atayahmet/laravel-castable.svg?branch=master)](https://travis-ci.org/atayahmet/laravel-castable)
-
-[![Total Downloads](https://poser.pugx.org/atayahmet/laravel-castable/downloads)](https://packagist.org/packages/atayahmet/laravel-castable)
-
-[![License](https://poser.pugx.org/atayahmet/laravel-castable/license)](https://packagist.org/packages/atayahmet/laravel-castable)
-
-[![Latest Stable Version](https://poser.pugx.org/atayahmet/laravel-castable/v/stable)](https://packagist.org/packages/atayahmet/laravel-castable)
+[![Build Status](https://travis-ci.org/atayahmet/laravel-castable.svg?branch=master)](https://travis-ci.org/atayahmet/laravel-castable) [![Total Downloads](https://poser.pugx.org/atayahmet/laravel-castable/downloads)](https://packagist.org/packages/atayahmet/laravel-castable) [![License](https://poser.pugx.org/atayahmet/laravel-castable/license)](https://packagist.org/packages/atayahmet/laravel-castable) [![Latest Stable Version](https://poser.pugx.org/atayahmet/laravel-castable/v/stable)](https://packagist.org/packages/atayahmet/laravel-castable)
 
 # Laravel Castable
 
