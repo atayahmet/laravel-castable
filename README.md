@@ -30,6 +30,9 @@ Let's see how to use the laravel-castable.
 | integer |
 | boolean |
 | float |
+| double |
+| real |
+| unset |
 | array |
 | object (stdClass) |
 | collection |
@@ -40,7 +43,7 @@ Let's see how to use the laravel-castable.
 We created new artisan command that inspired `make:request` from laravel built in command.
 
 ```sh
-$ php artisan make:cast ContactFormRequest
+$ php artisan make:cast ContactRequest
 ```
 
 **New form of the form request class:**
@@ -53,7 +56,7 @@ namespace App\Http\Requests;
 
 use Castable\Castable;
 
-class ContactFormRequest extends Castable
+class ContactRequest extends Castable
 {
     protected $casts = [
         'json' => [
@@ -120,9 +123,9 @@ To get the above result for:
 
 ContactController extends Controller {
 
-  public index(ContactFormRequest $contactFormRequest)
+  public index(ContactRequest $contactRequest)
   {
-      $contactFormRequest->input();
+      $contactRequest->input();
   }
 }
 ```
@@ -130,35 +133,69 @@ ContactController extends Controller {
 **Get a input:**
 
 ```php
-$contactFormRequest->input('interests'); // collection
+$contactRequest->input('interests'); // collection
 
-$contactFormRequest->input('student') // boolean (true)
+$contactRequest->input('student') // boolean (true)
 
-$contactFormRequest->input('save') // boolean (true)
+$contactRequest->input('save') // boolean (true)
 ````
 
 if request is post raw data:
 
 ```php
-$contactFormRequest->json();
+$contactRequest->json();
 
-$contactFormRequest->json('age');
+$contactRequest->json('age');
 ````
 
 **Get original inputs:**
 
 ```php
-$contactFormRequest->original()->input();
+$contactRequest->original()->input();
 ```
 
 **Get original an input:**
 
 ```php
-$contactFormRequest->original()->input('student'); // string (true)
+$contactRequest->original()->input('student'); // string (true)
 ```
 
 **Original raw data:**
 
 ```php
-$contactFormRequest->original()->json();
+$contactRequest->original()->json();
 ```
+
+## Add presenter to the inputs
+
+You can add presenter to the all post, query and json inputs. This feature gives you a chance to filter  inputs.
+
+Add presenter for post parameters:
+
+```php
+
+public function PostNameAttribute($value, $original)
+{
+    return ucfirst($value);
+}
+````
+
+Add presenter for query string parameters:
+
+```php
+
+public function QuerySaveAttribute($value, $original)
+{
+    return $value === true ? 1 : 0;
+}
+````
+
+Add presenter for json raw data parameters:
+
+```php
+
+public function JsonSaveAttribute($value, $original)
+{
+    return ucfirst($name);
+}
+````
