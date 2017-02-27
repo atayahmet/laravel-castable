@@ -67,7 +67,7 @@ class TestCastRequest extends Castable {
     public function rules()
     {
         return [
-
+            //
         ];
     }
 
