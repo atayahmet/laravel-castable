@@ -2,12 +2,14 @@
 
 namespace Castable;
 
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Collection;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
 class Castable extends FormRequest {
 
-    protected $originalRequest = false;
+    protected $casting = false;
 
     /**
      * Get the input source for the request.
@@ -34,7 +36,7 @@ class Castable extends FormRequest {
     {
         $input = $this->getInputSource()->all() + $this->requestCast($this->query, 'query')->all();
 
-        $this->resetOriginal();
+        $this->resetCast();
 
         return data_get($input, $key, $default);
     }
@@ -55,16 +57,52 @@ class Castable extends FormRequest {
         if (is_null($key)) {
             $jsonData = $this->requestCast($this->json, 'json');
 
-            $this->resetOriginal();
+            $this->resetCast();
 
             return $jsonData;
         }
 
         $jsonData = $this->requestCast(new ParameterBag($this->json->all()), 'json')->all();
 
-        $this->resetOriginal();
+        $this->resetCast();
 
         return data_get($jsonData, $key, $default);
+    }
+
+    /**
+     * Convert given cast to incoming types
+     *
+     * @param  [type] $data parameters payload
+     * @param  [type] $type cast group name
+     * @return mixed
+     */
+    public function cast($data = null, $type = null)
+    {
+        if(! $data) {
+            $this->casting = true;
+
+            return $this;
+        }
+
+        return $this->applyCast($this->resolveParameters($data), $this->casts[$type], $type)->all();
+    }
+
+    /**
+     * Resolve types given parameters
+     *
+     * @param  mixed $data
+     * @return object
+     */
+    protected function resolveParameters($data)
+    {
+        if($data instanceof Collection) {
+            $data = $data->toArray();
+        }
+        else if($data instanceof Request) {
+            $data = $request->all();
+        }
+
+        return new ParameterBag($data);
     }
 
     /**
@@ -72,9 +110,10 @@ class Castable extends FormRequest {
      *
      * @param  ParameterBag $parameters
      * @param  array        $casts
+     * @param  string cast group
      * @return object ParameterBag
      */
-    protected function cast(ParameterBag $parameters, array $casts, $type)
+    protected function applyCast(ParameterBag $parameters, array $casts, $type)
     {
         // Cloning the ParameterBag  class to prevent any change
         // Converts parameters everytime
@@ -100,13 +139,6 @@ class Castable extends FormRequest {
         return $data;
     }
 
-    public function original()
-    {
-        $this->originalRequest = true;
-
-        return $this;
-    }
-
     /**
      * Convert type adapter
      *
@@ -117,15 +149,15 @@ class Castable extends FormRequest {
     protected function requestCast($request, $type)
     {
         if(array_has($this->casts, $type)) {
-            $request = $this->originalRequest ? $request : $this->cast($request, $this->casts[$type], $type);
+            $request = !$this->casting ? $request : $this->applyCast($request, $this->casts[$type], $type);
         }
 
         return $request;
     }
 
-    protected function resetOriginal()
+    protected function resetCast()
     {
-        $this->originalRequest = false;
+        $this->casting = false;
     }
 
     /**

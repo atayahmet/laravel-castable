@@ -131,7 +131,7 @@ ContactController extends Controller {
 
   public index(ContactRequest $contactRequest)
   {
-      $contactRequest->input();
+      $contactRequest->cast()->input();
   }
 }
 ```
@@ -139,37 +139,37 @@ ContactController extends Controller {
 **Get a input:**
 
 ```php
-$contactRequest->input('interests'); // collection
+$contactRequest->cast()->input('interests'); // collection
 
-$contactRequest->input('student') // boolean (true)
+$contactRequest->cast()->input('student') // boolean (true)
 
-$contactRequest->input('save') // boolean (true)
+$contactRequest->cast()->input('save') // boolean (true)
 ````
 
 if request is post raw data:
 
 ```php
-$contactRequest->json();
+$contactRequest->cast()->json();
 
-$contactRequest->json('age');
+$contactRequest->cast()->json('age');
 ````
 
 **Get original inputs:**
 
 ```php
-$contactRequest->original()->input();
+$contactRequest->input();
 ```
 
 **Get original an input:**
 
 ```php
-$contactRequest->original()->input('student'); // string (true)
+$contactRequest->input('student'); // string (true)
 ```
 
 **Original raw data:**
 
 ```php
-$contactRequest->original()->json();
+$contactRequest->json();
 ```
 
 ## Add presenter to the inputs

@@ -7,6 +7,7 @@ use Orchestra\Testbench\TestCase as OrchestraTestCase;
 abstract class TestCase extends OrchestraTestCase
 {
     protected $castRequest;
+    protected $testData;
 
     /**
      * Define environment setup.
@@ -16,7 +17,7 @@ abstract class TestCase extends OrchestraTestCase
      */
     protected function getEnvironmentSetUp($app)
     {
-        $testData = [
+        $this->testData = [
             'age'  => '11',
             'birthYear' => '2005',
             'total_money' => '35.34',
@@ -38,9 +39,9 @@ abstract class TestCase extends OrchestraTestCase
 
             if(in_array($type, ['query', 'post', 'json'])) {
                 if($type == 'json') {
-                    $requestData[$type] = json_encode(array_merge($testData, ['experience' => '4']));
+                    $requestData[$type] = json_encode(array_merge($this->testData, ['experience' => '4']));
                 }else{
-                    $requestData[$type] = $testData;
+                    $requestData[$type] = $this->testData;
                 }
             }else{
                 $requestData[$type] = [];
